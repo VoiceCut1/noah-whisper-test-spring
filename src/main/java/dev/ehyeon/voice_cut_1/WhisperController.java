@@ -18,10 +18,11 @@ public class WhisperController {
 
     @PostMapping("/transcribe")
     public ResponseEntity<String> transcribeAudio(@RequestParam("file") MultipartFile file) {
-        String transcription = whisperService.transcribeAudio(file);
+        // 비동기로 Whisper와 OpenAI 호출
+        whisperService.transcribeAudio(file)
+                .thenCompose(openAIService::analyzeTextForVoicePhishing);
 
-        String analysisResult = openAIService.analyzeTextForVoicePhishing(transcription);
-
-        return ResponseEntity.ok(analysisResult);
+        // 즉시 응답 반환
+        return ResponseEntity.ok("Processing started.");
     }
 }
