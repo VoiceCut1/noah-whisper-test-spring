@@ -1,3 +1,6 @@
 spring:
   application:
     name: voice-cut-1
+
+key:
+  openai: ${OPENAI_KEY}
