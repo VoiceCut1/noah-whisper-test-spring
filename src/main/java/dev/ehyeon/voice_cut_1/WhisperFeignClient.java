@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface WhisperFeignClient {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    String transcribeAudio(
+    WhisperResponse transcribeAudio(
             @RequestHeader("Authorization") String authorization,
             @RequestPart("file") MultipartFile file,
             @RequestPart("model") String model
