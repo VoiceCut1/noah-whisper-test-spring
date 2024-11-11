@@ -28,6 +28,8 @@ public class OpenAIService {
                         "Analyze the following text for voice phishing probability and return the likelihood as a percentage along with a brief explanation:\n" + text)
         });
 
-        return openAIFeignClient.analyzeText(authorizationHeader, requestBody);
+        OpenAIResponse openAIResponse = openAIFeignClient.analyzeText(authorizationHeader, requestBody);
+
+        return openAIResponse.choices().get(0).message().content();
     }
 }

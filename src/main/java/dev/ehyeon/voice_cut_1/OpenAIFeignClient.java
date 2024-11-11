@@ -12,7 +12,7 @@ import java.util.Map;
 public interface OpenAIFeignClient {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    String analyzeText(
+    OpenAIResponse analyzeText(
             @RequestHeader("Authorization") String authorization,
             @RequestBody Map<String, Object> requestBody
     );
