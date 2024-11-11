@@ -30,7 +30,9 @@ public class OpenAIService {
             requestBody.put("messages", new Object[]{
                     Map.of("role", "system", "content", "You are an assistant that analyzes text for potential voice phishing scams."),
                     Map.of("role", "user", "content",
-                            "Analyze the following text for voice phishing probability and return the likelihood as a percentage along with a brief explanation:\n" + text)
+                            "Analyze the following text and return **only the likelihood of voice phishing as a percentage (e.g., 90)**. " +
+                                    "Do not include any explanation or additional text in your response. " +
+                                    "Response format must be a single integer percentage:\n" + text)
             });
 
             OpenAIResponse response = openAIFeignClient.analyzeText(authorizationHeader, requestBody);
