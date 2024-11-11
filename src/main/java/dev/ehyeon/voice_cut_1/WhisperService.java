@@ -20,19 +20,14 @@ public class WhisperService {
     private String apiKey;
 
     @Async
+    @LogExecutionTime
     public CompletableFuture<String> transcribeAudio(MultipartFile audioFile) {
-        long startTime = System.nanoTime(); // 시작 시간 기록
-
         String authorizationHeader = "Bearer " + apiKey;
 
         try {
             String text = whisperFeignClient.transcribeAudio(authorizationHeader, audioFile, "whisper-1").text();
-            long endTime = System.nanoTime(); // 종료 시간 기록
-            log.info("Transcription completed. Time taken: {} ms", (endTime - startTime) / 1_000_000);
             return CompletableFuture.completedFuture(text);
         } catch (Exception e) {
-            long endTime = System.nanoTime(); // 종료 시간 기록
-            log.error("Error during transcription. Time taken: {} ms", (endTime - startTime) / 1_000_000);
             return CompletableFuture.failedFuture(e);
         }
     }

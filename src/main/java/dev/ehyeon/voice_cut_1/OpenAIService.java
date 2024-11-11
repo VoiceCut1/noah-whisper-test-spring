@@ -21,9 +21,8 @@ public class OpenAIService {
     private String apiKey;
 
     @Async
+    @LogExecutionTime
     public CompletableFuture<Void> analyzeTextForVoicePhishing(String text) {
-        long startTime = System.nanoTime(); // 시작 시간 기록
-
         String authorizationHeader = "Bearer " + apiKey;
 
         try {
@@ -40,12 +39,9 @@ public class OpenAIService {
             OpenAIResponse response = openAIFeignClient.analyzeText(authorizationHeader, requestBody);
             String result = response.choices().get(0).message().content();
 
-            long endTime = System.nanoTime(); // 종료 시간 기록
-            log.info("Analysis completed. Time taken: {} ms", (endTime - startTime) / 1_000_000);
             log.info("Analysis result: {}", result);
         } catch (Exception e) {
-            long endTime = System.nanoTime(); // 종료 시간 기록
-            log.error("Error during analysis. Time taken: {} ms", (endTime - startTime) / 1_000_000);
+            log.error(e.getMessage());
         }
 
         return CompletableFuture.completedFuture(null);
