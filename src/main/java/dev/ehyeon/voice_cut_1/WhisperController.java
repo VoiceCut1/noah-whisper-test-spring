@@ -14,11 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class WhisperController {
 
     private final WhisperService whisperService;
+    private final OpenAIService openAIService;
 
     @PostMapping("/transcribe")
     public ResponseEntity<String> transcribeAudio(@RequestParam("file") MultipartFile file) {
         String transcription = whisperService.transcribeAudio(file);
 
-        return ResponseEntity.ok(transcription);
+        String analysisResult = openAIService.analyzeTextForVoicePhishing(transcription);
+
+        return ResponseEntity.ok(analysisResult);
     }
 }
