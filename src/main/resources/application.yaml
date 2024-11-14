@@ -1,3 +1,9 @@
 spring:
   application:
     name: voice-cut-1
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+key:
+  openai: ${OPENAI_KEY}
